@@ -41,7 +41,7 @@ if len(sensors) > 0:
 	# lightService = dev.getServiceByUUID(lightSensor)
 	lightService = connectService(dev, "f000aa70-0451-4000-b000-000000000000")
 	for ch in lightService.getCharacteristics():
-        print str(ch)
+		print str(ch)
 
 	uuidConfig = btle.UUID("f000aa72-0451-4000-b000-000000000000")
 	lightSensorConfig = lightService.getCharacteristics(uuidConfig)[0]
@@ -59,7 +59,7 @@ if len(sensors) > 0:
 	tempSensor = btle.UUID("f000aa00-0451-4000-b000-000000000000")
 	tempService = dev.getServiceByUUID(tempSensor)
 	for ch in tempService.getCharacteristics():
-        print str(ch)
+		print str(ch)
 
 	## batterySensor = btle.UUID("Battery Service")
 	## batteryService = dev.getServiceByUUID(batterySensor)
