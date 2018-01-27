@@ -31,8 +31,12 @@ if len(sensors) > 0:
 	# dev = btle.Peripheral(sensors[0])
 	dev = connectDevice(sensors[0])
 	print "Services.."
-    for svc in dev.services:
-        print str(svc)
+	for svc in dev.services:
+		print str(svc)
+
+	# for svc in dev.services:
+    # 	print str(svc)
+
 	# lightSensor = btle.UUID("f000aa70-0451-4000-b000-000000000000")
 	# lightService = dev.getServiceByUUID(lightSensor)
 	lightService = connectService(dev, "f000aa70-0451-4000-b000-000000000000")
