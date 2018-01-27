@@ -6,6 +6,15 @@ import os
 from time import sleep
 from datetime import datetime
 
+def connectDevice(macAddress):
+	device = btle.Peripheral(macAddress)
+	return device
+
+def connectService(device, sensorUUID):
+	sensor = btle.UUID(sensorUUID)
+	service = device.getServiceByUUID(sensor)
+	return service
+
 scanner = Scanner()
 devices = scanner.scan(5.0)
 
@@ -19,15 +28,16 @@ for dev in devices:
 
 if len(sensors) > 0:
 	print "conecting... to %s", sensors[0]
-	dev = btle.Peripheral(sensors[0])
-
+	# dev = btle.Peripheral(sensors[0])
+	dev = connectDevice(sensors[0])
 	print "Services.."
     for svc in dev.services:
         print str(svc)
-	lightSensor = btle.UUID("f000aa70-0451-4000-b000-000000000000")
-	lightService = dev.getServiceByUUID(lightSensor)
+	# lightSensor = btle.UUID("f000aa70-0451-4000-b000-000000000000")
+	# lightService = dev.getServiceByUUID(lightSensor)
+	lightService = connectService(dev, "f000aa70-0451-4000-b000-000000000000")
 	for ch in lightService.getCharacteristics():
-            print str(ch)
+        print str(ch)
 
 	uuidConfig = btle.UUID("f000aa72-0451-4000-b000-000000000000")
 	lightSensorConfig = lightService.getCharacteristics(uuidConfig)[0]
@@ -45,7 +55,7 @@ if len(sensors) > 0:
 	tempSensor = btle.UUID("f000aa00-0451-4000-b000-000000000000")
 	tempService = dev.getServiceByUUID(tempSensor)
 	for ch in tempService.getCharacteristics():
-            print str(ch)
+        print str(ch)
 
 	## batterySensor = btle.UUID("Battery Service")
 	## batteryService = dev.getServiceByUUID(batterySensor)
