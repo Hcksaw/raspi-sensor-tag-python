@@ -6,11 +6,6 @@ import os
 from time import sleep
 from datetime import datetime
 
-svcUUID  = _TI_UUID(0xAA10)
-dataUUID = _TI_UUID(0xAA11)
-ctrlUUID = _TI_UUID(0xAA12)
-
-
 def connectDevice(macAddress):
 	device = btle.Peripheral(macAddress)
 	return device
