@@ -6,6 +6,11 @@ import os
 from time import sleep
 from datetime import datetime
 
+svcUUID  = _TI_UUID(0xAA10)
+dataUUID = _TI_UUID(0xAA11)
+ctrlUUID = _TI_UUID(0xAA12)
+
+
 def connectDevice(macAddress):
 	device = btle.Peripheral(macAddress)
 	return device
@@ -14,6 +19,27 @@ def connectService(device, sensorUUID):
 	sensor = btle.UUID(sensorUUID)
 	service = device.getServiceByUUID(sensor)
 	return service
+
+def getDataAccel(device):
+	svcUUID  = _TI_UUID(0xAA80)
+    dataUUID = _TI_UUID(0xAA81)
+    ctrlUUID = _TI_UUID(0xAA82)
+	accelService = connectService(dev, "f000AA80-0451-4000-b000-000000000000")
+	for ch in accelService.getCharacteristics():
+		print str(ch)
+	accelConfigUUID = "f000AA82-0451-4000-b000-000000000000"
+	accelSensorConfig = accelService.getCharacteristics(accelConfigUUID)[0]
+	accelSensorConfig.write(bytes("\x07"))
+	time.sleep(1)
+
+	accelDataUUID = "f000AA81-0451-4000-b000-000000000000"
+	accelData = accelSensor.getCharacteristics(accelDataUUID)[0]
+	while 1:
+		val = accelData.read()
+	 	print "Light sensor raw value", binascii.b2a_hex(val)
+	 	time.sleep(1)
+
+
 
 scanner = Scanner()
 devices = scanner.scan(5.0)
@@ -48,15 +74,19 @@ if len(sensors) > 0:
 	uuidValue = btle.UUID("f000aa71-0451-4000-b000-000000000000")
 	lightSensorValue = lightService.getCharacteristics(uuidValue)[0]
 
-	while 1:
-		val = lightSensorValue.read()
-		print "Light sensor raw value", binascii.b2a_hex(val)
-		time.sleep(1)
+	getDataAccel(dev)
 
-	tempSensor = btle.UUID("f000aa00-0451-4000-b000-000000000000")
-	tempService = dev.getServiceByUUID(tempSensor)
-	for ch in tempService.getCharacteristics():
-		print str(ch)
+	# while 1:
+	# 	val = lightSensorValue.read()
+	# 	print "Light sensor raw value", binascii.b2a_hex(val)
+	# 	time.sleep(1)
+
+	
+
+	# tempSensor = btle.UUID("f000aa00-0451-4000-b000-000000000000")
+	# tempService = dev.getServiceByUUID(tempSensor)
+	# for ch in tempService.getCharacteristics():
+	# 	print str(ch)
 
 	## batterySensor = btle.UUID("Battery Service")
 	## batteryService = dev.getServiceByUUID(batterySensor)
