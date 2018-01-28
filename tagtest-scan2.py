@@ -21,7 +21,7 @@ def getDataAccel(device):
 		print str(ch)
 	accelConfigUUID = "f000AA82-0451-4000-b000-000000000000"
 	accelSensorConfig = accelService.getCharacteristics(accelConfigUUID)[0]
-	accelSensorConfig.write(bytes("\x07"))
+	accelSensorConfig.write(bytes("\x01"))
 	time.sleep(1)
 
 	accelDataUUID = "f000AA81-0451-4000-b000-000000000000"
