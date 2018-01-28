@@ -3,6 +3,7 @@ from bluepy.btle import Scanner, DefaultDelegate
 import time
 import binascii
 import os
+import struct
 from time import sleep
 from datetime import datetime
 
@@ -21,14 +22,14 @@ def getDataAccel(device):
 		print str(ch)
 	accelConfigUUID = "f000AA82-0451-4000-b000-000000000000"
 	accelSensorConfig = accelService.getCharacteristics(accelConfigUUID)[0]
-	accelSensorConfig.write(bytes("\x01"))
+	accelSensorConfig.write(struct.pack("<H", 7 << 3))
 	time.sleep(1)
 
 	accelDataUUID = "f000AA81-0451-4000-b000-000000000000"
-	accelData = accelService.getCharacteristics(accelDataUUID)
+	accelData = accelService.getCharacteristics(accelDataUUID)[0]
 	while 1:
-		val = accelData.read()
-	 	print "accel raw value", val
+		val = accelData.data.read()
+	 	print "accel raw value", struct.unpack("<hhhhhhhhh", dval)
 	 	time.sleep(1)
 
 
