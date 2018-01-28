@@ -25,7 +25,7 @@ def getDataAccel(device):
 	time.sleep(1)
 
 	accelDataUUID = "f000AA81-0451-4000-b000-000000000000"
-	accelData = accelSensor.getCharacteristics(accelDataUUID)[0]
+	accelData = accelService.getCharacteristics(accelDataUUID)[0]
 	while 1:
 		val = accelData.read()
 	 	print "Light sensor raw value", binascii.b2a_hex(val)
