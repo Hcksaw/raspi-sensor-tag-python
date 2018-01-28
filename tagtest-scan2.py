@@ -28,8 +28,8 @@ def getDataAccel(device):
 	accelDataUUID = "f000AA81-0451-4000-b000-000000000000"
 	accelData = accelService.getCharacteristics(accelDataUUID)[0]
 	while 1:
-		val = accelData.data.read()
-	 	print "accel raw value", struct.unpack("<hhhhhhhhh", dval)
+		val = accelData.read()
+	 	print "accel raw value", struct.unpack("<hhhhhhhhh", val)
 	 	time.sleep(1)
 
 
