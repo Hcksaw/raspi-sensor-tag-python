@@ -21,9 +21,6 @@ def connectService(device, sensorUUID):
 	return service
 
 def getDataAccel(device):
-	svcUUID  = _TI_UUID(0xAA80)
-    dataUUID = _TI_UUID(0xAA81)
-    ctrlUUID = _TI_UUID(0xAA82)
 	accelService = connectService(dev, "f000AA80-0451-4000-b000-000000000000")
 	for ch in accelService.getCharacteristics():
 		print str(ch)
