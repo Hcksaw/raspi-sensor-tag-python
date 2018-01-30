@@ -39,7 +39,9 @@ def getDataAccel(device):
 		three = struct.unpack("<hhhhhhhhh", val)[5:6][0]
 		
 		try:
-    		curs.execute ("INSERT INTO accelData values(" + one + "," + two + "," + three + ", CURRENT_DATE(), NOW()")
+			curs.execute("INSERT INTO accelData values (" + one + ", " + two + ", " + three + ", CURRENT_DATE(), NOW(), NULL, NULL)")
+			db.commit()
+			print "Record Insert"
 	 	time.sleep(1)
 
 
