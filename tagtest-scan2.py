@@ -28,13 +28,21 @@ def getDataAccel(device):
 
 	accelDataUUID = "f000AA81-0451-4000-b000-000000000000"
 	accelData = accelService.getCharacteristics(accelDataUUID)[0]
+	db = MySQLdb.connect("localhost", "hacksaw", "logfile12", "SensorData")
+	curs=db.cursor() 
+
 	while 1:
 		val = accelData.read()
 	 	print "accel raw value", struct.unpack("<hhhhhhhhh", val)[3:6]
+		one = struct.unpack("<hhhhhhhhh", val)[3:4][0]
+		two = struct.unpack("<hhhhhhhhh", val)[4:5][0]
+		three = struct.unpack("<hhhhhhhhh", val)[5:6][0]
+		
+		try:
+    		curs.execute ("INSERT INTO accelData values(" + one + "," + two + "," + three + ", CURRENT_DATE(), NOW()")
 	 	time.sleep(1)
 
-db = MySQLdb.connect("localhost", "hacksaw", "logfile12", "SensorData")
-curs=db.cursor()
+
 
 scanner = Scanner()
 devices = scanner.scan(5.0)
