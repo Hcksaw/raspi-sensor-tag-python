@@ -6,6 +6,7 @@ import os
 import struct
 from time import sleep
 from datetime import datetime
+import MySQLdb
 
 def connectDevice(macAddress):
 	device = btle.Peripheral(macAddress)
@@ -29,10 +30,11 @@ def getDataAccel(device):
 	accelData = accelService.getCharacteristics(accelDataUUID)[0]
 	while 1:
 		val = accelData.read()
-	 	print "accel raw value", struct.unpack("<hhhhhhhhh", val)
+	 	print "accel raw value", struct.unpack("<hhhhhhhhh", val)[3:6]
 	 	time.sleep(1)
 
-
+db = MySQLdb.connect("localhost", "hacksaw", "logfile12", "SensorData")
+curs=db.cursor()
 
 scanner = Scanner()
 devices = scanner.scan(5.0)
